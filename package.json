@@ -4,7 +4,7 @@
   "description": "Multiplayer fighting game for web",
   "scripts": {
     "client:start": "webpack-dev-server --config config/webpack.client.js --host 0.0.0.0",
-    "server:start": "node scripts/server.js"
+    "server:start": "node --inspect scripts/server.js"
   },
   "repository": {
     "type": "git",
@@ -15,11 +15,13 @@
   "license": "ISC",
   "homepage": "http://lightfury.debojyotighosh.com",
   "dependencies": {
+    "canvas": "^2.6.1",
     "express": "^4.17.1",
     "jsdom": "^16.2.0",
     "phaser": "^3.22.0",
     "shelljs": "^0.8.3",
-    "socket.io": "^2.3.0"
+    "socket.io": "^2.3.0",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.8.6",
