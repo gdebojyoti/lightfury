@@ -1,6 +1,6 @@
 import Phaser from 'phaser'
 
-import BootstrapScene from '../scenes/Bootstrap'
+// import BootstrapScene from '../scenes/Bootstrap'
 
 const config = {
   type: Phaser.HEADLESS,
@@ -15,7 +15,12 @@ const config = {
       debug: true
     }
   },
-  scene: [BootstrapScene],
+  // scene: [BootstrapScene],
+  scene: {
+    preload: () => { console.log('server preload') },
+    create: () => { console.log('server create') },
+    update: () => { console.log('server update') }
+  },
   title: 'Project Lightfury',
   backgroundColor: '#06C6F8',
   transparent: true,
@@ -24,6 +29,7 @@ const config = {
 
 class Game {
   static initialize () {
+    console.log('initializing server game');
     (() => new Phaser.Game(config))()
   }
 }

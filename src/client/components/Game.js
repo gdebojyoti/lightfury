@@ -17,7 +17,7 @@ const config = {
   },
   scene: [BootstrapScene],
   title: 'Project Lightfury',
-  backgroundColor: '#06C6F8',
+  backgroundColor: '#fcfcfc',
   transparent: true,
   disableContextMenu: true
 }

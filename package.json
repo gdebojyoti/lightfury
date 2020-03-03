@@ -4,7 +4,7 @@
   "description": "Multiplayer fighting game for web",
   "scripts": {
     "client:start": "webpack-dev-server --config config/webpack.client.js --host 0.0.0.0",
-    "server:start": "node --inspect scripts/server.js"
+    "server:start": "node --inspect=8084 scripts/server.js"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,7 @@
   "dependencies": {
     "canvas": "^2.6.1",
     "express": "^4.17.1",
+    "file-loader": "^5.1.0",
     "jsdom": "^16.2.0",
     "phaser": "^3.22.0",
     "shelljs": "^0.8.3",

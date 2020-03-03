@@ -1,16 +1,77 @@
 import Phaser from 'phaser'
 
+import Socket from '../utilities/Socket'
+import Messenger from '../utilities/Messenger'
+import Player from '../prefabs/Player'
+import ground from '../assets/ground.png'
+
 class BootstrapScene extends Phaser.Scene {
   constructor () {
-    super({ key: 'Bootstrap' })
+    super({ key: 'bootstrap' })
   }
 
   preload () {
-    console.log('preloading...')
+    this.loadImages()
   }
 
   create () {
     console.log('creating...')
+
+    // keyboard listeners
+    this.cursors = this.input.keyboard.createCursorKeys()
+
+    // ground
+    const ground = this.physics.add.staticGroup()
+    ground.add(this.add.tileSprite(128, 384, 768, 128, 'ground').setOrigin(0, 0))
+
+    // test player
+    this.initPlayer({
+      staticProps: ground
+    })
+
+    this.subscribeToMessages()
+
+    this.input.on('pointerdown', e => {
+      Socket.handleInput()
+    })
+  }
+
+  update () {
+    this.player.update({ cursors: this.cursors })
+  }
+
+  // images to be loaded during preload phase
+  loadImages () {
+    this.load.image('ground', ground)
+  }
+
+  initPlayer ({ staticProps, passiveProps }) {
+    this.player = new Player({
+      scene: this,
+      config: {
+        name: 'Boogyman',
+        position: { x: 80, y: 100 },
+        scale: 0.25
+      },
+      staticProps,
+      passiveProps,
+      isActivePlayer: true
+    })
+  }
+
+  subscribeToMessages () {
+    const messages = ['MOVE_PLAYER']
+    messages.forEach(message => { Messenger.subscribe(message, data => this.listenToMessages(message, data)) })
+  }
+
+  listenToMessages (message, data) {
+    switch (message) {
+      case 'MOVE_PLAYER': {
+        console.log('move player', data)
+        this.player.updatePosition(data)
+        break
+      }
+    }
   }
 }
 

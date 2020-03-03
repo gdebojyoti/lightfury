@@ -1,6 +1,5 @@
 import express from 'express'
 
-import Player from '../shared/Player'
 import Socket from './utilities/Socket'
 import Game from './components/Game'
 
@@ -17,6 +16,3 @@ const server = express()
 
 Socket.initialize(server)
 Game.initialize()
-
-const player = new Player('server-player')
-console.log('player details', player.fetchDetails())
