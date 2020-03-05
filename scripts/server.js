@@ -3,29 +3,32 @@ require('@babel/register')({
 })
 
 const { JSDOM } = require('jsdom')
-require('canvas')
+const Canvas = require('canvas')
 
 const jsdom = new JSDOM('<!doctype html><html><body></body></html>')
 const { window } = jsdom
 
-function copyProps (src, target) {
-  Object.defineProperties(target, {
-    ...Object.getOwnPropertyDescriptors(src),
-    ...Object.getOwnPropertyDescriptors(target)
-  })
+global.window = window
+global.navigator = { userAgent: 'nodejs' }
+global.Image = Canvas.Image
+window.focus = () => { console.warn('window.focus does not work on the server') }
+
+// copy properties from window to global; to avoid writing stuff like `global.document = window.document`
+Object.defineProperties(global, {
+  ...Object.getOwnPropertyDescriptors(window),
+  ...Object.getOwnPropertyDescriptors(global)
+})
+
+const animationFrame = (cb) => {
+  if (typeof cb !== 'function') return 0 // this line saves a lot of cpu
+  window.setTimeout(() => {
+    cb(0) // eslint-disable-line standard/no-callback-literal
+  }, 1000 / 60)
+  return 0
 }
 
-global.window = window
-global.document = window.document
-global.navigator = {
-  userAgent: 'node.js'
+window.requestAnimationFrame = cb => {
+  return animationFrame(cb)
 }
-global.requestAnimationFrame = function (callback) {
-  return setTimeout(callback, 0)
-}
-global.cancelAnimationFrame = function (id) {
-  clearTimeout(id)
-}
-copyProps(window, global)
 
 module.exports = require('../src/server/app.js')

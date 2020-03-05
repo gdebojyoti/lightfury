@@ -24,7 +24,8 @@ const config = {
   title: 'Project Lightfury',
   backgroundColor: '#06C6F8',
   transparent: true,
-  disableContextMenu: true
+  disableContextMenu: true,
+  autoFocus: false
 }
 
 class Game {
