@@ -34,9 +34,6 @@ class Socket {
       console.log('player input received', data)
 
       Messenger.publish('MSG_PLAYER_INPUT', data)
-
-      // send to all clients
-      this.io.emit('MOVE_PLAYER', data)
     })
   }
 
@@ -50,6 +47,9 @@ class Socket {
       // ask client to move player
       case 'MOVE_PLAYER': {
         console.log('moving player according to calculated data', data)
+
+        // send to all clients
+        this.io.emit('MOVE_PLAYER', data)
         break
       }
     }

@@ -17,7 +17,7 @@ class BootstrapScene extends Phaser.Scene {
   }
 
   update () {
-    console.log('updating...')
+    // console.log('updating...')
   }
 
   subscribeToMessages () {
@@ -28,7 +28,6 @@ class BootstrapScene extends Phaser.Scene {
   listenToMessages (message, data) {
     switch (message) {
       case 'MSG_PLAYER_INPUT': {
-        console.log('calculating player position', data)
         Messenger.publish('MOVE_PLAYER', data)
         break
       }
