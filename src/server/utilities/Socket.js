@@ -4,7 +4,7 @@ import Messenger from './Messenger'
 
 class Socket {
   static initialize (server) {
-    this.io = openSocket(server)
+    this.io = openSocket(server, { pingInterval: 1000 })
 
     this.subscribeToMessages()
     this.addEvents()

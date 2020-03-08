@@ -1,17 +1,20 @@
 import openSocket from 'socket.io-client'
 
 import Messenger from './Messenger'
+import Ui from './Ui'
 
 // TODO: make url dynamic
 const remoteUrl = `http://${window.location.hostname}:8082`
 
-const colors = ['red', 'blue', 'yellow']
-let colorIndex = 0
-
 class Socket {
   static initialize () {
     this.socket = openSocket(remoteUrl)
+    this.initializeUi()
     this.assignMethods()
+  }
+
+  static initializeUi () {
+    Ui.initialize()
   }
 
   static assignMethods () {
@@ -23,9 +26,8 @@ class Socket {
       })
     })
 
-    this.socket.on('TEST_VERIFIED', () => {
-      colorIndex = colorIndex === colors.length - 1 ? 0 : colorIndex + 1
-      document.body.style.background = colors[colorIndex]
+    this.socket.on('pong', latency => {
+      Ui.updatePing(latency)
     })
 
     this.socket.on('MOVE_PLAYER', (data) => {
