@@ -16,18 +16,8 @@ class Socket {
 
   static onConnect (socket) {
     console.log('a user connected', socket.id)
-    socket.on('disconnect', function () {
+    socket.on('disconnect', () => {
       console.log('user disconnected')
-    })
-
-    socket.on('TEST', (data) => {
-      console.log('started', data)
-
-      // send to all clients
-      this.io.emit('TEST_VERIFIED')
-
-      // // send to sender only
-      // socket.emit('TEST_VERIFIED')
     })
 
     socket.on('PLAYER_INPUT', (data) => {

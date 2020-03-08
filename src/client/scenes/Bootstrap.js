@@ -3,6 +3,8 @@ import Phaser from 'phaser'
 import Socket from '../utilities/Socket'
 import Messenger from '../utilities/Messenger'
 import Player from '../prefabs/Player'
+import { getSearchParam } from '../utilities'
+
 import ground from '../assets/ground.png'
 
 class BootstrapScene extends Phaser.Scene {
@@ -12,10 +14,12 @@ class BootstrapScene extends Phaser.Scene {
 
   preload () {
     this.loadImages()
+    this.subscribeToMessages()
   }
 
   create () {
-    console.log('creating...')
+    console.log('creating game.. setting up socket connection..')
+    Socket.initialize()
 
     // keyboard listeners
     this.cursors = this.input.keyboard.createCursorKeys()
@@ -27,12 +31,6 @@ class BootstrapScene extends Phaser.Scene {
     // test player
     this.initPlayer({
       staticProps: ground
-    })
-
-    this.subscribeToMessages()
-
-    this.input.on('pointerdown', e => {
-      Socket.handleInput()
     })
   }
 
@@ -60,12 +58,16 @@ class BootstrapScene extends Phaser.Scene {
   }
 
   subscribeToMessages () {
-    const messages = ['MOVE_PLAYER']
+    const messages = ['INITIALIZE_PLAYER', 'MOVE_PLAYER']
     messages.forEach(message => { Messenger.subscribe(message, data => this.listenToMessages(message, data)) })
   }
 
   listenToMessages (message, data) {
     switch (message) {
+      case 'INITIALIZE_PLAYER': {
+        console.log('init player', getSearchParam('name'))
+        break
+      }
       case 'MOVE_PLAYER': {
         console.log('move player', data)
         this.player.updatePosition(data)
@@ -73,6 +75,8 @@ class BootstrapScene extends Phaser.Scene {
       }
     }
   }
+
+  // public methods
 }
 
 export default BootstrapScene

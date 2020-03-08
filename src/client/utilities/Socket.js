@@ -20,10 +20,7 @@ class Socket {
   static assignMethods () {
     this.socket.on('connect', () => {
       console.log('I got in!', this.socket)
-
-      this.socket.emit('CONNECTED', {
-        username: 'deb'
-      })
+      Messenger.publish('INITIALIZE_PLAYER')
     })
 
     this.socket.on('pong', latency => {
@@ -32,13 +29,6 @@ class Socket {
 
     this.socket.on('MOVE_PLAYER', (data) => {
       Messenger.publish('MOVE_PLAYER', data)
-    })
-  }
-
-  static handleInput () {
-    console.log('inputt')
-    this.socket.emit('TEST', {
-      dummy: false
     })
   }
 

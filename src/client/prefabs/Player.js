@@ -35,7 +35,7 @@ class Player extends Phaser.GameObjects.Rectangle {
   }
 
   onCollision (obj1, obj2) {
-    console.log('collided..', obj1.name, obj2.name)
+    // console.log('collided..', obj1.name, obj2.name)
   }
 
   // handle movement & jumping
