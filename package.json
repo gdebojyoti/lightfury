@@ -16,7 +16,7 @@
   "homepage": "http://lightfury.debojyotighosh.com",
   "dependencies": {
     "canvas": "^2.6.1",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "file-loader": "^5.1.0",
     "jsdom": "^16.2.0",
     "nodemon": "^2.0.2",
